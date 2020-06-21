@@ -13,4 +13,5 @@ const store = middleware(devtools(createStore))(rootReducer)
 
 export default store
 
+export * from './rootReducer'
 export * from './image'

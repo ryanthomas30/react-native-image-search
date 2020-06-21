@@ -23,12 +23,15 @@ export class ImageAPI {
 				key: this.API_KEY,
 			},
 		})
-		return (response.data.hits as ImageResponse[]).map(({ id, user, tags, imageHeight, imageWidth }) => ({
+
+		return (response.data.hits as ImageResponse[]).map(({ id, user, tags, imageHeight, imageWidth, largeImageURL, userImageURL }) => ({
 			id,
 			user,
 			tags: tags.split(', '),
 			imageHeight,
 			imageWidth,
+			imageUrl: largeImageURL,
+			userImageUrl: userImageURL,
 		}))
 	}
 }

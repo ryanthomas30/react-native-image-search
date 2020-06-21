@@ -1,20 +1,6 @@
-export type ImageState = {
-	images: any
-}
+import reducer from './reducer'
 
-const initialState: ImageState = {
-	images: {},
-}
+export * from './actions'
+export * from './reducer'
 
-enum ImageActionTypes {
-	SET_IMAGES = 'SET_IMAGES'
-}
-
-export default (state: ImageState = initialState, action: any): ImageState => {
-	switch (action.type) {
-		case ImageActionTypes.SET_IMAGES:
-			return { ...state, images: action.payload }
-		default:
-			return state
-	}
-}
+export default reducer

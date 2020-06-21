@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, Text, TextInput, Image, FlatList, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
+import { View, Text, Image, FlatList, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { getImages, useTypedSelector } from '../store'
+import { Header, SearchBar } from '../components'
 
 const Home = () => {
 	const navigation = useNavigation()
@@ -34,14 +35,9 @@ const Home = () => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.header} >
-				<TextInput
-					placeholder='Search for an image'
-					returnKeyType='search'
-					placeholderTextColor='#9C9C9C'
-					style={[{ width: imageWidth }, styles.search]}
-				/>
-			</View>
+			<Header>
+				<SearchBar />
+			</Header>
 			<FlatList
 				data={images}
 				keyExtractor={image => `${image.id}`}
@@ -70,30 +66,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 	},
-	header: {
-		backgroundColor: 'white',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-		elevation: 5,
-		paddingTop: 40,
-		paddingBottom: 20,
-		alignSelf: 'stretch',
-		alignItems: 'center',
-	},
 	image: {
 		marginVertical: 20,
 		borderRadius: 20,
-	},
-	search: {
-		paddingHorizontal: 20,
-		paddingVertical: 12,
-		backgroundColor: '#EFEFEF',
-		borderRadius: 50,
 	},
 })
 

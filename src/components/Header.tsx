@@ -23,10 +23,12 @@ const styles = StyleSheet.create({
 		shadowRadius: 3.84,
 		elevation: 5,
 		paddingTop: 40,
-		paddingBottom: 20,
-		paddingHorizontal: 20,
+		paddingBottom: 24,
+		paddingHorizontal: 24,
 		alignSelf: 'stretch',
 		alignItems: 'center',
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
 	},
 })
 

@@ -1,62 +1,69 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { View, Text, Image, FlatList, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, StyleSheet, NativeSyntheticEvent, TextInputSubmitEditingEventData } from 'react-native'
 
 import { getImages, useTypedSelector } from '../store'
-import { Header, SearchBar } from '../components'
+import { Header, ImageList, SearchBar, Loader } from '../components'
+import { Image } from '../model'
 
 const Home = () => {
-	const navigation = useNavigation()
 	const dispatch = useDispatch()
 	const images = useTypedSelector(state => state.image.images)
 	const [loading, setLoading] = useState(false)
-	console.log('images:', images)
-
-	const imageWidth = Dimensions.get('window').width - 40
-	const imageHeight = Math.round(imageWidth * 9 / 16)
+	const [searchTerm, setSearchTerm] = useState('')
 
 	useEffect(() => {
-		const fetchImages = async() => {
+		const fetchImages = async () => {
 			setLoading(true)
-			await dispatch(getImages('dog'))
+			await dispatch(getImages(''))
 			setLoading(false)
 		}
 		fetchImages()
 	}, [])
 
-	if (loading) {
-		return (
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-				<Text>Loading</Text>
-			</View>
-		)
+	const handleSearch = async (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+		const newSearchTerm = e.nativeEvent.text
+		setLoading(true)
+		setSearchTerm(newSearchTerm)
+		await dispatch(getImages(e.nativeEvent.text))
+		setLoading(false)
+	}
+
+	interface ImageListWrapperProps {
+		images: Image[]
+		loading: boolean
+		searchTerm: string
+	}
+
+	const ImageListWrapper = ({ images, loading, searchTerm }: ImageListWrapperProps) => {
+		if (loading) {
+			return <Loader />
+		}
+		if (images.length === 0) {
+			if (searchTerm === '') {
+				return (
+					<Text>Search for an image.</Text>
+				)
+			}
+			return (
+				<Text>{`No images for keyword "${searchTerm}"`}</Text>
+			)
+		}
+		return <ImageList images={images} />
 	}
 
 	return (
 		<View style={styles.container}>
 			<Header>
-				<SearchBar />
+				<SearchBar onSubmitEditing={handleSearch} />
 			</Header>
-			<FlatList
-				data={images}
-				keyExtractor={image => `${image.id}`}
-				renderItem={({ item: image }) => (
-					<TouchableOpacity onPress={() => navigation.navigate('ImageDetail')} >
-						<Image
-							source={{ uri: image.imageUrl }}
-							resizeMode='cover'
-							style={[{ width: imageWidth, height: imageHeight }, styles.image]}
-						/>
-					</TouchableOpacity>
-				)}
-				contentContainerStyle={{
-					alignItems: 'center',
-				}}
-				style={{
-					alignSelf: 'stretch',
-				}}
-			/>
+			<View style={styles.listContainer} >
+				<ImageListWrapper
+					images={images}
+					loading={loading}
+					searchTerm={searchTerm}
+				/>
+			</View>
 		</View>
 	)
 }
@@ -66,9 +73,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 	},
-	image: {
-		marginVertical: 20,
-		borderRadius: 20,
+	listContainer: {
+		flex: 1,
+		alignItems: 'center',
+		alignSelf: 'stretch',
+		justifyContent: 'center',
 	},
 })
 

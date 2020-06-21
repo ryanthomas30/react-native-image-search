@@ -31,7 +31,7 @@ export class ImageAPI {
 			imageHeight,
 			imageWidth,
 			imageUrl: largeImageURL,
-			userImageUrl: userImageURL,
+			userImageUrl: userImageURL || 'https://picsum.photos/200',
 		}))
 	}
 }

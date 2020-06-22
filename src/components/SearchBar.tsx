@@ -9,6 +9,7 @@ const SearchBar = ({ ...other }: TextInputProps) => (
 			returnKeyType='search'
 			placeholderTextColor='#9C9C9C'
 			style={styles.search}
+			disableFullscreenUI
 			{...other}
 		/>
 		<Ionicons

@@ -1,8 +1,10 @@
 import React from 'react'
-import { Image, FlatList, TouchableOpacity, Dimensions, StyleSheet } from 'react-native'
+import { Orientation } from 'expo-screen-orientation'
+import { Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { Image as ImageType } from '../model'
+import { useResponsiveWidth } from '../hooks'
 
 interface Props {
 	images: ImageType[]
@@ -11,8 +13,13 @@ interface Props {
 const ImageList = ({ images }: Props) => {
 	const navigation = useNavigation()
 
-	const imageWidth = Dimensions.get('window').width - 40
+	const { width, height, orientation } = useResponsiveWidth()
+
+	console.log('orientation:', orientation)
+
+	let imageWidth = orientation === Orientation.PORTRAIT_UP || orientation === Orientation.PORTRAIT_DOWN ? width - 40 : height - 40
 	const imageHeight = Math.round(imageWidth * 9 / 16)
+	imageWidth = width - 40
 
 	return (
 

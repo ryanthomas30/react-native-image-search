@@ -4,25 +4,26 @@ import { Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import { Image as ImageType } from '../model'
-import { useResponsiveWidth } from '../hooks'
+import { useResponsiveDimensions } from '../hooks'
 
 interface Props {
+	/**
+	 * Array of images from the Pixabay API.
+	 */
 	images: ImageType[]
 }
 
 const ImageList = ({ images }: Props) => {
 	const navigation = useNavigation()
+	const { width, height, orientation } = useResponsiveDimensions()
 
-	const { width, height, orientation } = useResponsiveWidth()
-
-	console.log('orientation:', orientation)
-
-	let imageWidth = orientation === Orientation.PORTRAIT_UP || orientation === Orientation.PORTRAIT_DOWN ? width - 40 : height - 40
-	const imageHeight = Math.round(imageWidth * 9 / 16)
-	imageWidth = width - 40
+	/* Image Dimensions */
+	const portraitWidth = orientation === Orientation.PORTRAIT_UP || orientation === Orientation.PORTRAIT_DOWN ? width - 40 : height - 40
+	// Base the imageHeight on width of screen in portrait mode to maintain height across orientations
+	const imageHeight = Math.round(portraitWidth * 9 / 16)
+	const imageWidth = width - 40
 
 	return (
-
 		<FlatList
 			data={images}
 			keyExtractor={image => `${image.id}`}

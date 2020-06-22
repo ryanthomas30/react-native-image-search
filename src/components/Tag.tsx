@@ -6,12 +6,9 @@ interface Props {
 }
 
 const Tag = ({ label }: Props) => (
-	<View
-		style={styles.tag}
-	>
+	<View style={styles.tag} >
 		<Text style={styles.tagText} >{label}</Text>
 	</View>
-
 )
 
 const styles = StyleSheet.create({
@@ -27,7 +24,6 @@ const styles = StyleSheet.create({
 	tagText: {
 		fontSize: 12,
 	},
-
 })
 
 export default Tag

@@ -3,6 +3,8 @@ import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
 import image, { ImageState } from './image'
 
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
+
 export type RootState = {
 	image: ImageState
 }
@@ -10,7 +12,5 @@ export type RootState = {
 const rootReducer: Reducer<RootState> = combineReducers({
 	image,
 })
-
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export default rootReducer

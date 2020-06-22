@@ -5,7 +5,7 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native'
 
 import { RootStackParamList } from '../navigation'
 import { Header, Tag, Row, Label, Avatar } from '../components'
-import { useResponsiveWidth } from '../hooks'
+import { useResponsiveDimensions } from '../hooks'
 
 type ImageDetailRouteProp = RouteProp<RootStackParamList, 'ImageDetail'>
 
@@ -13,9 +13,9 @@ const ImageDetail = () => {
 	const route = useRoute<ImageDetailRouteProp>()
 	const navigation = useNavigation()
 	const { image } = route.params
+	const { width } = useResponsiveDimensions()
 
-	const { width } = useResponsiveWidth()
-
+	/* Image Dimensions */
 	const imageWidth = width - 24
 	const imageHeight = Math.round(imageWidth * 9 / 16)
 
@@ -49,7 +49,6 @@ const ImageDetail = () => {
 					<Label>Resolution:</Label>
 					<Tag label={`${image.imageWidth} x ${image.imageHeight}`} />
 				</Row>
-
 				<Row>
 					<Label>Tags:</Label>
 					<View style={styles.tagContainer} >
@@ -64,7 +63,6 @@ const ImageDetail = () => {
 					</View>
 				</Row>
 			</ScrollView>
-
 		</View>
 	)
 }

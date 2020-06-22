@@ -6,6 +6,29 @@ import { getImages, useTypedSelector } from '../store'
 import { Header, ImageList, SearchBar, Loader } from '../components'
 import { Image } from '../model'
 
+interface ImageListWrapperProps {
+	images: Image[]
+	loading: boolean
+	searchTerm: string
+}
+
+const ImageListWrapper = ({ images, loading, searchTerm }: ImageListWrapperProps) => {
+	if (loading) {
+		return <Loader />
+	}
+	if (images.length === 0) {
+		if (searchTerm === '') {
+			return (
+				<Text>Search for an image.</Text>
+			)
+		}
+		return (
+			<Text>{`No images for keyword "${searchTerm}"`}</Text>
+		)
+	}
+	return <ImageList images={images} />
+}
+
 const Home = () => {
 	const dispatch = useDispatch()
 	const images = useTypedSelector(state => state.image.images)
@@ -27,29 +50,6 @@ const Home = () => {
 		setSearchTerm(newSearchTerm)
 		await dispatch(getImages(e.nativeEvent.text))
 		setLoading(false)
-	}
-
-	interface ImageListWrapperProps {
-		images: Image[]
-		loading: boolean
-		searchTerm: string
-	}
-
-	const ImageListWrapper = ({ images, loading, searchTerm }: ImageListWrapperProps) => {
-		if (loading) {
-			return <Loader />
-		}
-		if (images.length === 0) {
-			if (searchTerm === '') {
-				return (
-					<Text>Search for an image.</Text>
-				)
-			}
-			return (
-				<Text>{`No images for keyword "${searchTerm}"`}</Text>
-			)
-		}
-		return <ImageList images={images} />
 	}
 
 	return (

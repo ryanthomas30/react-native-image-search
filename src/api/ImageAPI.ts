@@ -16,6 +16,10 @@ export class ImageAPI {
 		})
 	}
 
+	/**
+	 * Fetch images from the Pixabay API.
+	 * @param searchTerm String query to send to the Pixabay API.
+	 */
 	async getImages(searchTerm: string): Promise<Image[]> {
 		const response = await this.axios.get('', {
 			params: {

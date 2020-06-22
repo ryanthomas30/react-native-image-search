@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react'
 import { Dimensions } from 'react-native'
 import { addOrientationChangeListener, removeOrientationChangeListener, getOrientationAsync, Orientation } from 'expo-screen-orientation'
 
-export const useResponsiveWidth = () => {
+/**
+ * Returns dimensions of the screen that change based on screen orientation.
+ */
+export const useResponsiveDimensions = () => {
 	const [height, setHeight] = useState<number>(Dimensions.get('window').height)
 	const [width, setWidth] = useState<number>(Dimensions.get('window').width)
 	const [orientation, setOrientation] = useState<Orientation>(Orientation.PORTRAIT_UP)

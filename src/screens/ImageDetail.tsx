@@ -13,11 +13,13 @@ const ImageDetail = () => {
 	const route = useRoute<ImageDetailRouteProp>()
 	const navigation = useNavigation()
 	const { image } = route.params
-	const { width } = useResponsiveDimensions()
+	const { width, height, isPortrait } = useResponsiveDimensions()
 
 	/* Image Dimensions */
-	const imageWidth = width - 24
-	const imageHeight = Math.round(imageWidth * 9 / 16)
+	const portraitWidth = isPortrait ? width - 40 : height - 40
+	// Base the imageHeight on width of screen in portrait mode to maintain height across orientations
+	const imageHeight = Math.round(portraitWidth * 9 / 16)
+	const imageWidth = width - 40
 
 	return (
 		<View style={styles.container}>

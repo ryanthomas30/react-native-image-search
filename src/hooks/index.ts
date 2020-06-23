@@ -26,6 +26,10 @@ export const useResponsiveDimensions = () => {
 		}
 	}, [])
 
-	return { height, width, orientation }
+	const isPortrait = orientation === Orientation.PORTRAIT_UP || orientation === Orientation.PORTRAIT_DOWN
+	const isLandscape = orientation === Orientation.LANDSCAPE_LEFT || orientation === Orientation.LANDSCAPE_RIGHT
+	const isUnkownOrientation = orientation === Orientation.UNKNOWN
+
+	return { height, width, orientation, isPortrait, isLandscape, isUnkownOrientation }
 }
 

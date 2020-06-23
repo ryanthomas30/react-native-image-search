@@ -15,10 +15,10 @@ interface Props {
 
 const ImageList = ({ images }: Props) => {
 	const navigation = useNavigation()
-	const { width, height, orientation } = useResponsiveDimensions()
+	const { width, height, isPortrait } = useResponsiveDimensions()
 
 	/* Image Dimensions */
-	const portraitWidth = orientation === Orientation.PORTRAIT_UP || orientation === Orientation.PORTRAIT_DOWN ? width - 40 : height - 40
+	const portraitWidth = isPortrait ? width - 40 : height - 40
 	// Base the imageHeight on width of screen in portrait mode to maintain height across orientations
 	const imageHeight = Math.round(portraitWidth * 9 / 16)
 	const imageWidth = width - 40

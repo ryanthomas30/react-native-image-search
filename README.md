@@ -10,5 +10,7 @@ yarn install
 ```
 #### Run
 ```bash
-expo start
+yarn start
 ```
+
+Scan the provided QR code on your mobile device from the Expo app to run the application.

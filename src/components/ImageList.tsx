@@ -1,8 +1,8 @@
 import React from 'react'
-import { Orientation } from 'expo-screen-orientation'
-import { Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
+import Loader from '../components/Loader'
 import { Image as ImageType } from '../model'
 import { useResponsiveDimensions } from '../hooks'
 
@@ -11,9 +11,11 @@ interface Props {
 	 * Array of images from the Pixabay API.
 	 */
 	images: ImageType[]
+	loadingMore: boolean
+	onEndReached: ((info: { distanceFromEnd: number }) => void)
 }
 
-const ImageList = ({ images }: Props) => {
+const ImageList = ({ images, loadingMore, onEndReached }: Props) => {
 	const navigation = useNavigation()
 	const { width, height, isPortrait } = useResponsiveDimensions()
 
@@ -26,7 +28,17 @@ const ImageList = ({ images }: Props) => {
 	return (
 		<FlatList
 			data={images}
-			keyExtractor={image => `${image.id}`}
+			keyExtractor={(image, index) => `${image.id}-${index}`}
+			onEndReached={onEndReached}
+			onEndReachedThreshold={0.5}
+			ListFooterComponent={() => {
+				if (!loadingMore) return null
+				return (
+					<View style={[{ width: imageWidth, height: imageHeight }, styles.loadingMoreContainer]} >
+						<Loader />
+					</View>
+				)
+			}}
 			renderItem={({ item: image }) => (
 				<TouchableOpacity onPress={() => navigation.navigate('ImageDetail', { image })} >
 					<Image
@@ -50,6 +62,10 @@ const styles = StyleSheet.create({
 	image: {
 		marginVertical: 20,
 		borderRadius: 20,
+	},
+	loadingMoreContainer: {
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 })
 

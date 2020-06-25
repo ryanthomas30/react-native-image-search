@@ -8,6 +8,13 @@ export type ImageState = {
 	images: Image[]
 }
 
+interface Action {
+	type: ImageActionTypes
+	payload: Payload
+}
+
+type Payload = Image[]
+
 const initialState: ImageState = {
 	images: [],
 }
@@ -15,10 +22,12 @@ const initialState: ImageState = {
 /**
  * Reducer for image data from the Pixabay API.
  */
-export default (state: ImageState = initialState, action: any): ImageState => {
+export default (state: ImageState = initialState, action: Action): ImageState => {
 	switch (action.type) {
 		case ImageActionTypes.SET_IMAGES:
 			return { ...state, images: action.payload }
+		case ImageActionTypes.ADD_IMAGES:
+			return { ...state, images: [...state.images, ...action.payload] }
 		default:
 			return state
 	}

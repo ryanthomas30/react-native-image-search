@@ -19,11 +19,14 @@ export class ImageAPI {
 	/**
 	 * Fetch images from the Pixabay API.
 	 * @param searchTerm String query to send to the Pixabay API.
+	 * @param page The page of results to retrieve (default 20 images per page).
 	 */
-	async getImages(searchTerm: string): Promise<Image[]> {
+	async getImages(searchTerm: string, page: number): Promise<Image[]> {
 		const response = await this.axios.get('', {
 			params: {
 				q: searchTerm,
+				page,
+				'per_page': 5,
 				key: this.API_KEY,
 			},
 		})

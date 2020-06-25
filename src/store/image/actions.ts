@@ -9,16 +9,24 @@ import { ImageActionTypes } from './actionTypes'
  */
 export const getImages = (searchTerm: string, page: number): ThunkResult => async dispatch => {
 	const imageApi = new ImageAPI()
-	const hits = await imageApi.getImages(searchTerm, page)
-
-	if (page === 1) {
+	try {
+		const hits = await imageApi.getImages(searchTerm, page)
+		if (page === 1) {
+			return dispatch({
+				payload: hits,
+				type: ImageActionTypes.SET_IMAGES,
+			})
+		}
 		return dispatch({
 			payload: hits,
-			type: ImageActionTypes.SET_IMAGES,
+			type: ImageActionTypes.ADD_IMAGES,
+		})
+	} catch (err) {
+		console.error(err)
+		return dispatch({
+			payload: [],
+			type: ImageActionTypes.ADD_IMAGES,
 		})
 	}
-	return dispatch({
-		payload: hits,
-		type: ImageActionTypes.ADD_IMAGES,
-	})
+
 }

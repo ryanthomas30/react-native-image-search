@@ -26,7 +26,8 @@ export class ImageAPI {
 			params: {
 				q: searchTerm,
 				page,
-				'per_page': 5,
+				'per_page': 10,
+				orientation: 'horizontal',
 				key: this.API_KEY,
 			},
 		})
